@@ -231,7 +231,7 @@ Once done, you can expect your Selenium code to extract all Airbnb listing data 
 
 Now that we have our data organized in a way that's easy to parse, we can produce our data as message records so Kafka can queue it, then we will use Spark Structured Streaming to consume those messages and output it to Neo4j. 
 
-Our justication to use a real-time data streaming pipeline is to handle large records of data, especially if this project increases in scope and we decide to scrape listings in other countries outside of the US. If one doesn't feel the need to uses streaming technologies and prefers to directly write the scraped data to Neo4j, a [Python-Neo4j](https://pypi.org/project/neo4j/) connector allows for exactly that.
+Our justification to use a real-time data streaming pipeline is to handle large records of data, especially if this project increases in scope and we decide to scrape listings in other countries outside of the US. If one doesn't feel the need to uses streaming technologies and prefers to directly write the scraped data to Neo4j, a [Python-Neo4j](https://pypi.org/project/neo4j/) connector allows for exactly that.
 
 When the streaming pipeline runs daily, the checkpoint location (a path in an HDFS-compatible storage system) may cause some challenges we need to **keep in mind**:
 
