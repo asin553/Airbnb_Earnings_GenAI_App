@@ -225,6 +225,7 @@ Once done, you can expect your Selenium code to extract all Airbnb listing data 
 ![hippo](Media/AirbnbWebDriver.gif)
 
 In each city's webpage, the scrollable section will initially only load a certain number of listings as property cards. We need to simulate a scroll behavior to the maximum extent of this section to scrape all the data.
+
 ![hippo](Media/AirbnbSeleniumExtract.gif)
 
 
