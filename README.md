@@ -31,8 +31,9 @@ As a developer, I wanted to build something that would streamline this process o
 - **Python 3.1x**
 - **Docker Engine** (Running on a highly available server)
 - **Selenium WebDriver** (MS Edge browser used)
+- **Apache Airflow** (Astro CLI used) 
 - **Apache Kafka** 
-- **Apache Spark** (w/ Spark Structured Streaming)
+- **Apache Spark** (w/ Spark Connect + Structured Streaming)
 - **Neo4j Instance** (AuraDB managed cloud service used)
 - **Strawberry GraphQL** (via FastAPI & Apollo Sandbox)
 - **MLflow**
@@ -161,7 +162,7 @@ pip install -r requirements.txt
 ```
 
 ### Configuration Setup
-Since we know we want to use Streamlit as our UI for conversational app, we can take advantage of its ```secrets.toml``` file and use it to manage all of our projects' environment variables.
+Since we know we want to use Streamlit as our UI for conversational app, we can take advantage of its ```secrets.toml``` file and use it to manage all of our AI projects' environment variables.
 
 **Streamlit Secrets**
 ```toml
@@ -171,6 +172,7 @@ OPENAI_MODEL = "OPENAI_MODEL"  # e.g. gpt-4o-mini
 NEO4J_URI = "NEO4J_URI"  # e.g. neo4j+s://your-instance.databases.neo4j.io
 NEO4J_USERNAME = "NEO4J_USERNAME"  
 NEO4J_PASSWORD = "NEO4J_PASSWORD"
+NEO4J_DATABASE = "NEO4J_DATABASE"
 
 KAFKA_BROKER = "KAFKA_BROKER"  # e.g. localhost:9092
 KAFKA_TOPIC = "KAFKA_TOPIC"
@@ -180,6 +182,26 @@ WEB_DRIVER_PATH = "WEB_DRIVER_PATH"
 WEB_URL = "WEB_URL"  # e.g. https://www.airbnb.com/airbnb-friendly
 ```
 
+Similarly, in our Astro project we can just use the ```.env``` file to manage the environment variables.
+
+**Airflow Environment Variables**
+```
+EDGE_DRIVER_URL=http://selenium-edge:4444
+AIRBNB_URL=https://www.airbnb.com/airbnb-friendly
+
+# ===== Kafka Configuration =====
+KAFKA_BROKER=KAFKA_BROKER
+KAFKA_TOPIC=KAFKA_TOPIC
+CHECKPOINT_LOCATION=CHECKPOINT_PATH  # e.g. gs://{bucket}/{directory}
+
+# ===== Neo4j Configuration =====
+NEO4J_URI=NEO4J_URI  # e.g. neo4j+s://your-instance.databases.neo4j.io
+NEO4J_USERNAME=NEO4J_USERNAME  
+NEO4J_PASSWORD=NEO4J_PASSWORD
+NEO4J_DATABASE=NEO4J_DATABASE
+```
+
+
 ### Manual Infrastructure Setup
 
 For the sake of simplicity, we will follow the manual setup steps below to start running the services on a server that the app is dependent on. Feel free to use Docker Compose here as well if you please!
@@ -187,7 +209,8 @@ For the sake of simplicity, we will follow the manual setup steps below to start
 | Service | Port | Description |
 |---------|------|-------------|
 | **Spark Web UI** | 4040 | Monitor Spark application |
-| **Kafka Web UI** | 8080 | Kafka cluster visualization |
+| **Airflow Web UI** | 8080 | DAG visualization |
+| **Kafka Web UI** | 8081 | Kafka cluster visualization |
 | **Zookeeper** | 2181 | Kafka coordination service |
 | **Kafka** | 9092 | Message streaming platform |
 | **GraphQL API** | 8000 | Strawberry Apollo Sandbox |
@@ -209,6 +232,23 @@ bin/kafka-server-start.sh config/server.properties
 # Terminal 3: Start Kafka UI (Docker)
 # To monitor Kafka topic and its produced messages, we will use the pre-built Docker image to run Apache Kafka UI:
 docker run -it -p 8080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+```
+
+**2. Start Spark Connect server**
+In order for Spark Structured Streaming to be able to consume messages from Kakfa topic & to also write to Neo4j, we first need to make sure we have the correct JAR placed in Spark's classpath for the checkpoint location. In this case we are using GCS:
+
+```
+gcs-connector-hadoop3-2.2.33-shaded.jar
+```
+
+```bash
+spark-submit --class org.apache.spark.sql.connect.service.SparkConnectServer --name "Spark Connect server" --packages org.apache.spark:spark-connect_2.13:3.5.8,org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.8,org.neo4j:neo4j-connector-apache-spark_2.13:5.4.2_for_spark_3
+```
+
+**3. Start Airflow Docker container via Astro CLI**
+```bash
+astro dev init
+astro dev start
 ```
 
 **2. Start GraphQL API**
@@ -276,18 +316,6 @@ In each iteration of the daily streaming pipeline, it's a good practice to first
 | **Kafka Producer** | enable_idempotence=True | 
 | **Spark Consumer** | startingOffsets="latest" |
 | **Spark Consumer** | failOnDataLoss="false" | 
-
-In order for Spark Structured Streaming to be able to consume messages from Kakfa topic & to also write to Neo4j, we first need to make sure we have the correct JARS placed in Spark's classpath. These JARS are dependent on the Apache Spark & Kafka versions you are using and can be downloaded from Maven Central:
-
-```
-spark-streaming_2.1x-3.x.x.jar
-spark-streaming-kafka-0-10_2.1x-3.x.x.jar
-spark-sql-kafka-0-10_2.1x-3.x.x.jar
-kafka-clients-3.x.x.jar
-spark-token-provider-kafka-0-10_2.1x-3.x.x.jar
-commons-pool2-2.1x.x.jar
-neo4j-spark-connector-5.3.9-s_2.1x.jar
-```
 
 We can monitor the messages produced to the Kafka topic using its Web UI:
 
