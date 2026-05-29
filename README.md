@@ -56,11 +56,9 @@ As a developer, I wanted to build something that would streamline this process o
 
 ### Environment Setup
 
-**Sample Project Structure**
+**Sample AI Project Structure (API & Chat Layers)**
 ```
-AirbnbFriendlyGenAIApp
-├── 📁 .astro
-│   └── 📄config.yaml          
+AirbnbFriendlyGenAIApp       
 ├── 📁 .streamlit             
 │   └── 📄secrets.toml               
 ├── 📁 api
@@ -82,6 +80,37 @@ AirbnbFriendlyGenAIApp
 │       ├── 📄cypher.py      
 │       ├── 📄graphql.py
 │       └── 📄vector.py         
+├── 📁 tests
+├── 📄README.md       
+└── 📄requirements.txt                
+```
+
+**List Python packages in ```requirements.txt``` file in project directory**
+```text
+fastapi==0.115.12
+findspark==2.0.1
+gql==4.0.0
+langchain>=0.3.25
+langchain-community==0.3.25
+langchainhub==0.1.21
+langchain-neo4j==0.1.1
+langchain-openai==0.2.10
+mlflow==3.4.0
+neo4j==5.27.0
+openai==1.56.0
+pytest==8.1.1
+requests==2.32.4
+strawberry-graphql>=0.213.0
+streamlit==1.35.0
+tenacity!=8.4.0
+uvicorn==0.34.3
+```
+
+**Sample Astro Project Structure (ETL Layer)**
+```
+AirflowStructuredStreaming
+├── 📁 .astro
+│   └── 📄config.yaml
 ├── 📁 dags
 │   ├── 📄__init__.py             
 │   └── 📄etl.py
@@ -97,32 +126,21 @@ AirbnbFriendlyGenAIApp
 ├── 📄Dockerfile        
 ├── 📄packages.txt
 ├── 📄README.md       
-└── 📄requirements.txt                
+└── 📄requirements.txt              
 ```
 
 **List Python packages in ```requirements.txt``` file in project directory**
 ```text
-fastapi==0.115.12
-findspark==2.0.1
-gql==4.0.0
-kafka-python==2.2.15
-langchain>=0.3.25
-langchain-community==0.3.25
-langchainhub==0.1.21
-langchain-neo4j==0.1.1
-langchain-openai==0.2.10
-mlflow==3.4.0
-neo4j==5.27.0
-openai==1.56.0
-pyspark==3.4.1
+apache-airflow-providers-common-compat
+apache-airflow-providers-standard
+astro-run-dag
+pyspark==3.5.8
 pytest==8.1.1
-requests==2.32.4
-schedule==1.2.2
+kafka-python==2.2.15
+grpcio>=1.48.1
+grpcio-status
+pyarrow>=4.0.0
 selenium==4.35.0
-strawberry-graphql>=0.213.0
-streamlit==1.35.0
-tenacity!=8.4.0
-uvicorn==0.34.3
 ```
 
 **Setup virtual environment**
