@@ -58,14 +58,15 @@ As a developer, I wanted to build something that would streamline this process o
 
 **Sample Project Structure**
 ```
-AirbnbEarningsGenAIApp               
+AirbnbFriendlyGenAIApp
+├── 📁 .astro
+│   └── 📄config.yaml          
 ├── 📁 .streamlit             
 │   └── 📄secrets.toml               
 ├── 📁 api
 │   ├── 📄__init__.py                                
 │   ├── 📄main.py               
-│   ├── 📄mutation.py             
-│   ├── 📄neo4j.py              
+│   ├── 📄mutation.py               
 │   ├── 📄query.py
 │   ├── 📄schema.py       
 │   └── 📄types.py              
@@ -79,15 +80,23 @@ AirbnbEarningsGenAIApp
 │   ├── 📁 tools
 │       ├── 📄__init__.py                                        
 │       ├── 📄cypher.py      
-│       └── 📄graphql.py         
-├── 📁 etl
-│   ├── 📄__init__.py                                                  
-│   ├── 📄scheduler.py          
-│   ├── 📄scraper.py           
+│       ├── 📄graphql.py
+│       └── 📄vector.py         
+├── 📁 dags
+│   ├── 📄__init__.py             
+│   └── 📄etl.py
+├── 📁 data
+├── 📁 include
+│   ├── 📄__init__.py
+│   ├── 📄scraper.py              
 │   └── 📄streamer.py
-├── 📁 tests          
-├── 📄Dockerfile                
-├── 📄README.md          
+├── 📁 plugins
+├── 📁 tests
+├── 📄airflow_settings.yaml
+├── 📄docker-compose.override.yaml
+├── 📄Dockerfile        
+├── 📄packages.txt
+├── 📄README.md       
 └── 📄requirements.txt                
 ```
 
