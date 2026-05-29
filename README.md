@@ -232,6 +232,8 @@ In order for Spark Structured Streaming to be able to consume messages from Kakf
 gcs-connector-hadoop3-2.2.33-shaded.jar
 ```
 
+Then navigate to the Spark installation folder and run the command to start server. Remember, this decoupled client-server architecture allows the Airflow instance running in docker (the client) to communicate with remote SparkSession over gRPC.
+
 ```bash
 spark-submit --class org.apache.spark.sql.connect.service.SparkConnectServer --name "Spark Connect server" --packages org.apache.spark:spark-connect_2.13:3.5.8,org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.8,org.neo4j:neo4j-connector-apache-spark_2.13:5.4.2_for_spark_3
 ```
