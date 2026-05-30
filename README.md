@@ -14,7 +14,7 @@ One should feel free to use their own data of interest to expand on and to gener
 **The code for this project is not yet open-source.**
 
 ## Architecture Overview
-<img width="2516" height="1098" alt="image" src="https://github.com/user-attachments/assets/f191ca5c-8c00-44cf-8935-5580afcab389" />
+<img width="2510" height="1094" alt="image" src="https://github.com/user-attachments/assets/5ada06d0-4103-4080-8657-4068b6f5d8f4" />
 
 ## Motivation
 As an Airbnb host myself as well as an avid user of Airbnb when looking for rentals during travel stays, I'm always on the lookout for the best prices. I often monitor market trends in the same area I host my timeshare to give competitive rates to renters, but I also hope to expand my host properties around the country.
