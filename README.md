@@ -118,7 +118,9 @@ AirflowStructuredStreaming
 ├── 📁 data
 ├── 📁 include
 │   ├── 📄__init__.py
-│   ├── 📄scraper.py              
+│   └── 📄embedding.py
+│   └── 📄scraper.py
+│   └── 📄scripts.py              
 │   └── 📄streamer.py
 ├── 📁 plugins
 ├── 📁 tests
@@ -135,12 +137,14 @@ AirflowStructuredStreaming
 apache-airflow-providers-common-compat
 apache-airflow-providers-standard
 astro-run-dag
-pyspark==3.5.8
-pytest==8.1.1
-kafka-python==2.2.15
 grpcio>=1.48.1
 grpcio-status
+kafka-python==2.2.15
+neo4j==5.27.0
+openai==1.56.0
 pyarrow>=4.0.0
+pyspark==3.5.8
+pytest==8.1.1
 selenium==4.35.0
 ```
 
@@ -179,6 +183,8 @@ Similarly, in our Astro project we can just use the ```.env``` file to manage th
 
 **Airflow Environment Variables**
 ```
+OPENAI_API_KEY=OPENAI_API_KEY
+
 EDGE_DRIVER_URL=EDGE_DRIVER_URL # e.g. http://localhost:4444
 WEB_URL=WEB_URL  # e.g. https://www.airbnb.com/airbnb-friendly
 
@@ -223,6 +229,13 @@ bin/kafka-server-start.sh config/server.properties
 # To monitor Kafka topic and its produced messages, we will use the pre-built Docker image to run Apache Kafka UI:
 docker run -it -p 8080:8081 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
 ```
+
+It may be necessary to bind the Kafka broker port to IPv4, as Docker will try to connect to local Kafka on that port only. If so, open up the `bin\kafka-run-class.sh` file and add 
+```bash
+KAFKA_OPTS="-Djava.net.preferIPv4Stack=True"
+```
+
+Further mandatory information to connect a local Kafka cluster to an Airflow instance running in Docker is here [Airflow Kafka Connection](https://www.astronomer.io/docs/learn/airflow-kafka).
 
 **2. Start Spark Connect server**  
 
