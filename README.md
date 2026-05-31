@@ -235,7 +235,7 @@ It may be necessary to bind the Kafka broker port to IPv4, as Docker will try to
 KAFKA_OPTS="-Djava.net.preferIPv4Stack=True"
 ```
 
-Further mandatory information to connect a local Kafka cluster to an Airflow instance running in Docker is here [Airflow Kafka Connection](https://www.astronomer.io/docs/learn/airflow-kafka).
+Further mandatory information to connect a local Kafka cluster to an Airflow instance running in Docker is [here](https://www.astronomer.io/docs/learn/airflow-kafka).
 
 **2. Start Spark Connect server**  
 
