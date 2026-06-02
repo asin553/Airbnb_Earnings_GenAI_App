@@ -276,7 +276,9 @@ mlflow ui
 ## ETL Layer
 
 ### Extract
-We first need to decide on a data scheduler that will periodically, in this case daily, scrape our target Airbnb web page to make sure we are getting the most recent data for our GraphRAG application. For this demo we are just using an inherent Python scheduler which uses CRON-based expressions to achieve our goal. One also has the option to use modern tools like Airflow, Dagster, Prefect or Mage. 
+We first need to decide on a data scheduler that will periodically, in this case daily, scrape our target Airbnb web page to make sure we are getting the most recent data for our GraphRAG application. For this demo we will use Airflow, which uses a set of tasks in a DAG pipeline to orchestrate different parts of the streaming pipeline. Below is a sample DAG view of a successful run:
+
+![hippo](Media/AirflowDAGSuccess.jpg)
 
 We now need to focus on the scraping of data from the Airbnb Friendly webpage. Before moving one, one needs to [pull](https://hub.docker.com/r/selenium/standalone-edge) the latest driver compatible with the local Edge installation. Again, Chrome or Firefox can be used here instead.
 
