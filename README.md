@@ -355,7 +355,8 @@ A summary of the graph database model the above images illustrate:
 | **Country** | `name: String` | Represents a country (e.g., "United States") |
 | **State** | `code: String` | Represents a state (e.g., "CA", "NY") |
 | **City** | `name: String`<br>`state: String` | Represents a city with its state |
-| **Listing** | `name: String`<br>`address: String`<br>`monthly_rent: Integer`<br>`weekly_earnings: Integer`<br>`net_revenue: Integer`<br>`roi: Float`<br>`description: String` | Represents an Airbnb listing with financial metrics |
+| **Listing** | `name: String`<br>`address: String`<br>`monthly_rent: Integer`<br>`weekly_earnings: Integer`<br>`net_revenue: Integer`<br>`roi: Float`<br>`description: String` | Represents an Airbnb listing with financial metrics |  
+
 
 **Relationships**
 
