@@ -341,12 +341,12 @@ We are now ready to write our data to Neo4j using Cypher queries via Graph Query
 Once we properly identify our nodes with their properties & relationships via a Cypher query to create our graph database model, we can have Spark write the data stream to our Neo4j AuraDB instance. This will kickstart progress on introducing a GraphRAG system that uses Neo4j as a knowledge graph to provide more accurate & relevant results to our GenAI application based on relationships between the data nodes.
 
 **Graph Visualization Overview:**
-<p align="center">
-  <img width="624" height="458" alt="image" src="https://github.com/user-attachments/assets/e4c8410f-a358-49fe-938e-a77bb88c4c55" /> 
-</p>
-
-**Subgraph w/ Sample Nodes & Relationships:**
-<img width="1430" height="925" alt="image" src="https://github.com/user-attachments/assets/074a09ee-c061-4abe-9a3c-3cdbc0b3ce73" />
+<table>
+  <tr>
+    <td><img src="Media/Neo4jGraph.png" alt="Schema Visualization" width="100%"></td>
+    <td><img src="Media/Neo4jSubGraph.png" alt="Subgraph" width="100%"></td>
+  </tr>
+</table>
 
 A summary of the graph database model the above images illustrate:
 
