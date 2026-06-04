@@ -1,4 +1,4 @@
-# Airbnb Earnings GenAI App
+# HostLens AI
 
 <p align="center">
   <img width="700" height="300" alt="image" src="https://github.com/user-attachments/assets/a4ebde31-49bb-4a81-a128-77525e5c758d" />
