@@ -57,6 +57,8 @@ As a developer, I wanted to build something that would streamline this process o
 
 ### Environment Setup
 
+It's a good idea to have a monorepo consisting of one codebase dedicated to the Astro project and the other for Streamlit. This way we don't include unnecessary dependencies that our Airflow container doesn't need to execute the DAG.
+
 **Sample AI Project Structure (API & Chat Layers)**
 ```
 AirbnbFriendlyGenAIApp       
@@ -150,14 +152,15 @@ selenium==4.35.0
 
 **Setup virtual environment**
 
-Before installing the dependencies, let's set up a virtual environment to keep our project dependencies isolated from other projects:
+Before installing the dependencies, let's set up 2 virtual environments dedicated for each one of our projects to keep project dependencies isolated:
 ```bash
-python -m venv .venv
+python -m venv .airflow-streaming
+python -m venv .graphrag-app
 ```
 
-**To activate the environment (Linux), run:**
+**To activate any respective environment (Linux), for example run:**
 ```bash
-source .venv/bin/activate
+source .airflow-streaming/bin/activate
 ```
 
 **Install dependencies**
