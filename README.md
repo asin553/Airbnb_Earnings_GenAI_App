@@ -89,7 +89,6 @@ AirbnbFriendlyGenAIApp
 **List Python packages in ```requirements.txt``` file in project directory**
 ```text
 fastapi==0.115.12
-findspark==2.0.1
 gql==4.0.0
 langchain>=0.3.25
 langchain-community==0.3.25
@@ -124,6 +123,7 @@ AirflowStructuredStreaming
 │   └── 📄streamer.py
 ├── 📁 plugins
 ├── 📁 tests
+├── 📄.env
 ├── 📄airflow_settings.yaml
 ├── 📄docker-compose.override.yaml
 ├── 📄Dockerfile        
@@ -280,7 +280,7 @@ We first need to decide on a data scheduler that will periodically, in this case
 
 ![hippo](Media/AirflowDAGSuccess.jpg)
 
-We now need to focus on the scraping of data from the Airbnb Friendly webpage. Before moving one, one needs to [pull](https://hub.docker.com/r/selenium/standalone-edge) the latest driver compatible with the local Edge installation. Again, Chrome or Firefox can be used here instead.
+We now need to focus on the scraping of data from the Airbnb Friendly webpage. Before moving one, one needs to [pull](https://hub.docker.com/r/selenium/standalone-edge) the latest driver compatible with the local Edge installation. Again, Chrome or Firefox can be used here instead. Then in the Docker Compose override YAML file, one can specify the image with the available ports so the default template containers Airflow spins up at start time can be merged with our custom Selenium container.
 
 Here, it is crucial to keep in mind the 'Developer Tools' that help us inspect the HTML page with DOM elements presented as a tree structure of interconnected nodes. Below is a quick demo detailing that specific elements could look like on a specific citys' listings:
 
@@ -394,15 +394,16 @@ We can either create a ReAct agent using a pre-existing RAG prompt template from
 Some sample tools registered & passed to our agent include:
 
 1. An Airbnb general chat chain to fallback on when no other tool is available for the agent
-2. A Graph Cypher QA Chain to execute direct Cypher queries against Neo4j
+2. A Graph Cypher QA Chain to execute direct region-specific queries against Neo4j using Text2Cypher 
 3. A custom Smart NLP text parser using existing resolver functions in GraphQL endpoint
 4. LangChain's [BaseGraphQLTool](https://docs.langchain.com/oss/python/integrations/tools/graphql) to allow agent to generate & execute queries based on GraphQL API endpoint
+5. Semantic search similarity based on a listing's description due to vector indexes & text embeddings created in knowledge graph
 
 A sample user input & agent response is shown below:
 
 ![hippo](Media/StreamlitApp.gif)
 
-We can enable tracing for our application to visualize the data flow with [MLflow's LangChain integration](https://docs.langchain.com/oss/python/integrations/providers/mlflow_tracking). In the Traces tab, we can see the reasoning flow of the agent after it parses the user input. The tool show below is identified by the name given to it during initialization in the backend code:
+We can enable tracing for our application to visualize the data flow with [MLflow's LangChain integration](https://docs.langchain.com/oss/python/integrations/providers/mlflow_tracking). In the Traces tab, we can see the reasoning flow of the agent after it parses the user input. The tool shown below is identified by the name given to it during initialization in the backend code:
 
 ![hippo](Media/MLflowTracing.gif)
 
